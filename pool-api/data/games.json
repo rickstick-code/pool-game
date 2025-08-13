@@ -1,0 +1,26 @@
+[
+    {
+        "id": "fb62cbee-7a83-4818-a4ac-cf8e9223ae45",
+        "dateISO": "2025-08-13",
+        "mode": "1v1",
+        "winners": [
+            "yxc"
+        ],
+        "losers": [
+            "yxc"
+        ],
+        "lostOnBlack": false
+    },
+    {
+        "id": "67152762-f732-41b3-972c-a0e6c344a142",
+        "dateISO": "2025-08-13",
+        "mode": "1v1",
+        "winners": [
+            "Thomas"
+        ],
+        "losers": [
+            "Abbas"
+        ],
+        "lostOnBlack": false
+    }
+]

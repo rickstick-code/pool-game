@@ -1,0 +1,22 @@
+<section class="card">
+  <h1 class="neon neon-underline">Statistics</h1>
+
+  <div *ngIf="(totals$|async) as t" class="grid grid-2">
+    <div class="stat">
+      <div class="stat-label">Total games</div>
+      <div class="stat-value">{{ t.total }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">1 vs 1</div>
+      <div class="stat-value">{{ t.oneVone }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">2 vs 2</div>
+      <div class="stat-value">{{ t.twoVtwo }}</div>
+    </div>
+    <div class="stat">
+      <div class="stat-label">Lost on black</div>
+      <div class="stat-value">{{ t.blackBallLosses }}</div>
+    </div>
+  </div>
+</section>

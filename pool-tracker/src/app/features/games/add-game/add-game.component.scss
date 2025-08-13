@@ -1,0 +1,7 @@
+/* Component-specific extras */
+.mode-switch .btn-toggle {
+  animation: glowPulse 4s ease-in-out infinite;
+}
+.mode-switch .btn-toggle.active {
+  animation-duration: 2.8s;
+}

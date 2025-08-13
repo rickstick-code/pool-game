@@ -1,0 +1,38 @@
+<section class="card">
+  <h1 class="neon neon-underline">Enter Pool Game</h1>
+
+  <div class="mode-switch" style="display:flex; gap:.6rem; margin-bottom: 1rem;">
+    <button class="btn-toggle" [class.active]="mode==='1v1'" (click)="setMode('1v1')">1 vs 1</button>
+    <button class="btn-toggle" [class.active]="mode==='2v2'" (click)="setMode('2v2')">2 vs 2</button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid">
+    <div>
+      <label>Date</label>
+      <input type="date" formControlName="dateISO">
+    </div>
+
+    <div class="grid grid-2">
+      <fieldset>
+        <legend>Winners</legend>
+        <input placeholder="Winner 1" formControlName="winner1" type="text">
+        <input *ngIf="mode==='2v2'" placeholder="Winner 2" formControlName="winner2" type="text" style="margin-top:.6rem">
+      </fieldset>
+
+      <fieldset>
+        <legend>Losers</legend>
+        <input placeholder="Loser 1" formControlName="loser1" type="text">
+        <input *ngIf="mode==='2v2'" placeholder="Loser 2" formControlName="loser2" type="text" style="margin-top:.6rem">
+      </fieldset>
+    </div>
+
+    <div class="checkbox-row" style="margin-top:.4rem">
+      <input id="lostOnBlack" type="checkbox" formControlName="lostOnBlack">
+      <label for="lostOnBlack">Lost on black ball?</label>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; margin-top:.6rem;">
+      <button class="btn btn-primary" type="submit">Save Game</button>
+    </div>
+  </form>
+</section>
