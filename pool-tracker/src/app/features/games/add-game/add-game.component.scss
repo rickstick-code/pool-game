@@ -1,7 +1,46 @@
-/* Component-specific extras */
-.mode-switch .btn-toggle {
-  animation: glowPulse 4s ease-in-out infinite;
+.switch-toggle {
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  width: 280px;          /* adjust width */
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 1rem;
+  background: #1b1f1b;
 }
-.mode-switch .btn-toggle.active {
-  animation-duration: 2.8s;
+
+.switch-toggle input {
+  display: none;
+}
+
+.switch-toggle label {
+  text-align: center;
+  padding: 0.5rem 0;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  z-index: 2;
+  transition: color 0.25s ease;
+}
+
+.switch-toggle input#proper:checked ~ label[for="proper"],
+.switch-toggle input#blackball:checked ~ label[for="blackball"] {
+  color: var(--accent);
+}
+
+.switch-toggle .slider {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: rgba(57, 245, 106, 0.12);
+  box-shadow: 0 0 6px var(--shadow) inset, 0 0 8px var(--shadow);
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.switch-toggle input#blackball:checked ~ .slider {
+  transform: translateX(100%);
 }

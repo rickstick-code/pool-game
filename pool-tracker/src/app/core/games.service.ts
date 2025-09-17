@@ -9,9 +9,10 @@ export class GamesService {
   private _games$ = new BehaviorSubject<Game[]>([]);
   games$ = this._games$.asObservable();
 
-  // Adjust paths if your Angular app is in a subfolder
-  private GET_URL = '/data/get_games.php';
-  private SAVE_URL = '/data/save_game.php';
+  // point to /api (works in production and with proxy in dev)
+  private GET_URL = '/api/get_games.php';
+  private SAVE_URL = '/api/save_game.php';
+  private DELETE_URL = '/api/delete_game.php';
 
   constructor(private http: HttpClient) {}
 
@@ -31,6 +32,11 @@ export class GamesService {
 
   async add(game: Game) {
     await firstValueFrom(this.http.post(this.SAVE_URL, game));
+    await this.refresh();
+  }
+
+  async delete(id: string) {
+    await firstValueFrom(this.http.post(this.DELETE_URL, { id }));
     await this.refresh();
   }
 }

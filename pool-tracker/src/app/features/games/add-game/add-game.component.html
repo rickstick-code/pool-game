@@ -26,9 +26,16 @@
       </fieldset>
     </div>
 
-    <div class="checkbox-row" style="margin-top:.4rem">
-      <input id="lostOnBlack" type="checkbox" formControlName="lostOnBlack">
-      <label for="lostOnBlack">Lost on black ball?</label>
+    <div class="switch-toggle">
+      <input type="radio" id="proper" name="lostOnBlack" [checked]="!form.value.lostOnBlack"
+            (change)="form.patchValue({ lostOnBlack: false })">
+      <label for="proper">Proper game</label>
+
+      <input type="radio" id="blackball" name="lostOnBlack" [checked]="form.value.lostOnBlack"
+            (change)="form.patchValue({ lostOnBlack: true })">
+      <label for="blackball">Lost on black ball</label>
+
+      <span class="slider"></span>
     </div>
 
     <div style="display:flex; justify-content:flex-end; margin-top:.6rem;">

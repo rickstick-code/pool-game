@@ -1,22 +1,132 @@
-<section class="card">
+<section class="page-card">
   <h1 class="neon neon-underline">Statistics</h1>
 
-  <div *ngIf="(totals$|async) as t" class="grid grid-2">
-    <div class="stat">
-      <div class="stat-label">Total games</div>
-      <div class="stat-value">{{ t.total }}</div>
+  <ng-container *ngIf="vm$ | async as vm; else empty">
+    <!-- Top summary -->
+    <div class="grid grid-2" style="margin-bottom:1rem">
+      <section class="card stat">
+        <div class="stat-label">Total games</div>
+        <div class="stat-value">{{ vm.totalGames }}</div>
+      </section>
+
+      <section class="card stat">
+        <div class="stat-label">Current streak of proper games (no black-ball losses)</div>
+        <div class="stat-value">{{ vm.properStreak }}</div>
+      </section>
+
+      <section class="card stat">
+        <div class="stat-label">Highest winning streak</div>
+        <div class="stat-value">
+          {{ vm.topWin.value }} <span class="stat-sub" *ngIf="vm.topWin.value > 0">— {{ vm.topWin.name }}</span>
+        </div>
+      </section>
+
+      <section class="card stat">
+        <div class="stat-label">Highest losing streak</div>
+        <div class="stat-value">
+          {{ vm.topLose.value }} <span class="stat-sub" *ngIf="vm.topLose.value > 0">— {{ vm.topLose.name }}</span>
+        </div>
+      </section>
+
+      <section class="card stat" *ngIf="vm.bestPlayer">
+        <div class="stat-label">Best player (win ratio)</div>
+        <div class="stat-value">
+          {{ vm.bestPlayer!.ratio | percent:'1.0-0' }} <span class="stat-sub">— {{ vm.bestPlayer!.name }}</span>
+        </div>
+      </section>
+
+      <section class="card stat" *ngIf="vm.worstPlayer">
+        <div class="stat-label">Worst player (win ratio)</div>
+        <div class="stat-value">
+          {{ vm.worstPlayer!.ratio | percent:'1.0-0' }} <span class="stat-sub">— {{ vm.worstPlayer!.name }}</span>
+        </div>
+      </section>
     </div>
-    <div class="stat">
-      <div class="stat-label">1 vs 1</div>
-      <div class="stat-value">{{ t.oneVone }}</div>
+
+    <!-- Per-player table -->
+    <section class="card table-card" style="margin-top:.5rem;">
+      <h3 class="neon-underline">Per-player statistics</h3>
+      <div class="table-wrapper">
+        <table class="table-stats">
+          <thead>
+            <tr>
+              <th class="left">Player</th>
+              <th>Wins</th>
+              <th>Losses</th>
+              <th>Games</th>
+              <th>Win&nbsp;ratio</th>
+              <th class="hide-sm">Last 5</th>
+              <th class="hide-sm">Last 10</th>
+              <th class="hide-sm">Last 20</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of vm.rows">
+              <td class="left player-name">{{ r.name }}</td>
+              <td>{{ r.wins }}</td>
+              <td>{{ r.losses }}</td>
+              <td>{{ r.games }}</td>
+              <td>{{ r.ratio | percent:'1.0-0' }}</td>
+              <td class="hide-sm">{{ r.last5  | percent:'1.0-0' }}</td>
+              <td class="hide-sm">{{ r.last10 | percent:'1.0-0' }}</td>
+              <td class="hide-sm">{{ r.last20 | percent:'1.0-0' }}</td>
+              <td>
+                <span class="trend up" *ngIf="r.trend==='up'">▲</span>
+                <span class="trend down" *ngIf="r.trend==='down'">▼</span>
+                <span class="trend flat" *ngIf="r.trend==='flat'">▷</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+
+    <!-- Charts -->
+    <div class="grid" style="margin-top:1rem">
+      <section class="card chart">
+        <h3 class="neon-underline">Win ratio by player</h3>
+        <div class="bar-list">
+          <div class="bar-item" *ngFor="let r of vm.charts.byRatio">
+            <div class="bar-label">{{ r.name }}</div>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width.%]="r.ratio * 100"></div>
+            </div>
+            <div class="bar-value">{{ r.ratio | percent:'1.0-0' }}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card chart">
+        <h3 class="neon-underline">Absolute wins</h3>
+        <div class="bar-list">
+          <div class="bar-item" *ngFor="let r of vm.charts.byWins">
+            <div class="bar-label">{{ r.name }}</div>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width.%]="(r.wins / vm.charts.maxWins) * 100"></div>
+            </div>
+            <div class="bar-value">{{ r.wins }}</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card chart">
+        <h3 class="neon-underline">Participation count</h3>
+        <div class="bar-list">
+          <div class="bar-item" *ngFor="let r of vm.charts.byParticipation">
+            <div class="bar-label">{{ r.name }}</div>
+            <div class="bar-track">
+              <div class="bar-fill" [style.width.%]="(r.participation / vm.charts.maxPart) * 100"></div>
+            </div>
+            <div class="bar-value">{{ r.participation }}</div>
+          </div>
+        </div>
+      </section>
     </div>
-    <div class="stat">
-      <div class="stat-label">2 vs 2</div>
-      <div class="stat-value">{{ t.twoVtwo }}</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Lost on black</div>
-      <div class="stat-value">{{ t.blackBallLosses }}</div>
-    </div>
-  </div>
+  </ng-container>
+
+  <ng-template #empty>
+    <p style="color:var(--text-tertiary)">No games yet. Add your first game to see stats.</p>
+  </ng-template>
 </section>

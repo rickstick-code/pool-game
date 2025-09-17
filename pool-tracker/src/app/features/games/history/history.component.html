@@ -1,0 +1,56 @@
+<section class="card">
+  <h1 class="neon neon-underline">Game History</h1>
+
+  <!-- Filters -->
+  <div class="filters">
+    <input
+      type="search"
+      placeholder="Search player…"
+      (input)="setQ($any($event.target).value)"
+    >
+
+    <div class="seg">
+      <button class="btn-toggle" [class.active]="(mode$.value==='all')" (click)="setMode('all')">All</button>
+      <button class="btn-toggle" [class.active]="(mode$.value==='1v1')" (click)="setMode('1v1')">1 vs 1</button>
+      <button class="btn-toggle" [class.active]="(mode$.value==='2v2')" (click)="setMode('2v2')">2 vs 2</button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="vm$ | async as vm">
+    <p class="muted" style="margin-top:.2rem;">Showing {{ vm.total }} game(s)</p>
+
+    <div *ngFor="let grp of vm.groups" class="day">
+      <div class="day-head">
+        <span>{{ grp.dateISO | date:'EEE, d MMM y' }}</span>
+        <span class="rule"></span>
+      </div>
+
+      <div class="timeline">
+        <div class="item" *ngFor="let g of grp.items">
+          <div class="dot"></div>
+          <div class="content">
+            <div class="row">
+              <div class="teams">
+                <span class="winners">{{ (g.winners||[]).join(' & ') }}</span>
+                <span class="vs">vs</span>
+                <span class="losers">{{ (g.losers||[]).join(' & ') }}</span>
+              </div>
+              <div class="actions">
+              <button class="btn-delete" title="Delete game" (click)="deleteGame(g.id)">
+                🗑
+              </button>
+            </div>
+            </div>
+            <div class="meta">
+              <span class="badge" [class.bad]="g.lostOnBlack">{{ badgeFor(g) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="vm.groups.length === 0">
+      <p class="muted">No games match your filters.</p>
+    </ng-container>
+  </ng-container>
+</section>
