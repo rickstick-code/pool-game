@@ -7,7 +7,7 @@
       type="search"
       placeholder="Search player…"
       (input)="setQ($any($event.target).value)"
-    >
+    />
 
     <div class="seg">
       <button class="btn-toggle" [class.active]="(mode$.value==='all')" (click)="setMode('all')">All</button>
@@ -31,15 +31,41 @@
           <div class="content">
             <div class="row">
               <div class="teams">
-                <span class="winners">{{ (g.winners||[]).join(' & ') }}</span>
+                <span class="winners">
+                  <ng-container *ngFor="let w of g.winners; let wi = index">
+                    {{ w }}
+                    <ng-container *ngFor="let change of g.eloChanges">
+                      <span *ngIf="change.name === w" class="trend" 
+                        [ngClass]="{ 'up': change.delta > 0, 'down': change.delta < 0, 'flat': change.delta === 0 }">
+                        <span *ngIf="change.delta > 0">▲ +{{ change.delta }}</span>
+                        <span *ngIf="change.delta < 0">▼ {{ change.delta }}</span>
+                        <span *ngIf="change.delta === 0">▷ 0</span>
+                      </span>
+                    </ng-container>
+                    <span *ngIf="wi < (g.winners.length - 1)"> & </span>
+                  </ng-container>
+                </span>
                 <span class="vs">vs</span>
-                <span class="losers">{{ (g.losers||[]).join(' & ') }}</span>
+                <span class="losers">
+                  <ng-container *ngFor="let l of g.losers; let li = index">
+                    {{ l }}
+                    <ng-container *ngFor="let change of g.eloChanges">
+                      <span *ngIf="change.name === l" class="trend" 
+                        [ngClass]="{ 'up': change.delta > 0, 'down': change.delta < 0, 'flat': change.delta === 0 }">
+                        <span *ngIf="change.delta > 0">▲ +{{ change.delta }}</span>
+                        <span *ngIf="change.delta < 0">▼ {{ change.delta }}</span>
+                        <span *ngIf="change.delta === 0">▷ 0</span>
+                      </span>
+                    </ng-container>
+                    <span *ngIf="li < (g.losers.length - 1)"> & </span>
+                  </ng-container>
+                </span>
               </div>
               <div class="actions">
-              <button class="btn-delete" title="Delete game" (click)="deleteGame(g.id)">
-                🗑
-              </button>
-            </div>
+                <button class="btn-delete" title="Delete game" (click)="deleteGame(g.id)">
+                  🗑
+                </button>
+              </div>
             </div>
             <div class="meta">
               <span class="badge" [class.bad]="g.lostOnBlack">{{ badgeFor(g) }}</span>

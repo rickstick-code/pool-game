@@ -1,0 +1,61 @@
+<section class="card">
+  <h1 class="neon neon-underline">Elo Rankings</h1>
+
+  <ng-container *ngIf="vm$ | async as vm">
+    <!-- Podium -->
+    <div class="podium">
+      <div class="podium-place second" *ngIf="vm.podium[1]">
+        <div class="medal">🥈</div>
+        <div class="place-num">2</div>
+        <div class="player">{{ vm.podium[1].name }}</div>
+        <div class="elo">{{ vm.podium[1].elo }}</div>
+      </div>
+
+      <div class="podium-place first" *ngIf="vm.podium[0]">
+        <div class="medal">🥇</div>
+        <div class="place-num">1</div>
+        <div class="player">{{ vm.podium[0].name }}</div>
+        <div class="elo">{{ vm.podium[0].elo }}</div>
+      </div>
+
+      <div class="podium-place third" *ngIf="vm.podium[2]">
+        <div class="medal">🥉</div>
+        <div class="place-num">3</div>
+        <div class="player">{{ vm.podium[2].name }}</div>
+        <div class="elo">{{ vm.podium[2].elo }}</div>
+      </div>
+    </div>
+
+    <!-- All players table -->
+    <section class="card table-card" style="margin-top:1rem">
+      <h3 class="neon-underline">All players</h3>
+      <div class="table-wrapper">
+        <table class="table-stats">
+          <thead>
+            <tr>
+              <th class="left">Place</th>
+              <th class="left">Player</th>
+              <th>Elo</th>
+              <th>Trend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of vm.table; let i = index">
+              <td class="left">{{ i + 1 }}</td>
+              <td class="left player-name">{{ p.name }}</td>
+              <td>{{ p.elo }}</td>
+              <td>
+                <span class="trend up" *ngIf="p.delta > 0">▲</span>
+                <span class="trend down" *ngIf="p.delta < 0">▼</span>
+                <span class="trend flat" *ngIf="p.delta === 0">▷</span>
+                <span class="delta pos" *ngIf="p.delta > 0">+{{ p.delta }}</span>
+                <span class="delta neg" *ngIf="p.delta < 0">{{ p.delta }}</span>
+                <span class="delta" *ngIf="p.delta === 0">0</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </ng-container>
+</section>

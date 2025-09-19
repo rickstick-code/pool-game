@@ -10,6 +10,7 @@ import { GamesService } from './core/games.service';
     <div class="nav-wrap">
       <div class="container nav">
         <a routerLink="/games" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Enter Game</a>
+        <a routerLink="/games/elo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Elo</a>
         <a routerLink="/games/stats" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Statistics</a>
         <a routerLink="/games/history" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">History</a>
         <a routerLink="/legal" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Legal</a>

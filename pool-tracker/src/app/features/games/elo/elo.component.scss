@@ -1,0 +1,146 @@
+/* ===== Podium layout ===== */
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.podium-place {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background: #202620;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1rem;
+  min-width: 100px;
+  transition: transform .2s ease, box-shadow .2s ease;
+  position: relative;
+}
+
+.podium-place .place-num {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  margin-bottom: .3rem;
+}
+
+.podium-place .player {
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: .3rem;
+}
+
+.podium-place .elo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-shadow: 0 0 8px var(--shadow);
+}
+
+/* Heights to create stepped podium */
+.podium-place.first {
+  min-height: 170px;
+  transform: translateY(-10px);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--shadow);
+}
+.podium-place.second {
+  min-height: 140px;
+}
+.podium-place.third {
+  min-height: 120px;
+}
+
+/* Hover glow */
+.podium-place:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px var(--shadow),
+              inset 0 0 6px rgba(57,245,106,0.05);
+}
+
+/* ===== Medals ===== */
+.medal {
+  font-size: 1.4rem;
+  position: absolute;
+  top: -1.2rem;
+}
+.first .medal { color: gold; }
+.second .medal { color: silver; }
+.third .medal { color: #cd7f32; } /* bronze */
+
+/* ===== Table styling ===== */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-stats {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-stats th,
+.table-stats td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.table-stats th.left,
+.table-stats td.left {
+  text-align: left;
+}
+
+.table-stats th {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.player-name {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Trend + Delta */
+.trend {
+  font-weight: 800;
+}
+.trend.up { color: var(--text-primary); text-shadow: 0 0 10px var(--shadow); }
+.trend.down { color: #f56a6a; }
+.trend.flat { color: var(--text-tertiary); }
+
+.delta {
+  margin-left: .4rem;
+  font-size: .85rem;
+  font-weight: 600;
+}
+.delta.pos { color: var(--text-primary); }
+.delta.neg { color: #f56a6a; }
+
+/* ===== Responsive tweaks ===== */
+@media (min-width: 900px) {
+  .podium {
+    gap: 3rem;
+    margin: 2.5rem 0;
+  }
+
+  .podium-place {
+    min-width: 140px;
+    padding: 1.5rem;
+  }
+
+  .podium-place .elo {
+    font-size: 1.5rem;
+  }
+
+  .podium-place .player {
+    font-size: 1.1rem;
+  }
+}
