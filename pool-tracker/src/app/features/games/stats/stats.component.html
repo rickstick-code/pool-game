@@ -22,33 +22,41 @@
       <section class="card stat">
         <div class="stat-label">Highest winning streak</div>
         <div class="stat-value">
-          {{ vm.topWin.value }} <span class="stat-sub" *ngIf="vm.topWin.value > 0">— {{ vm.topWin.name }}</span>
+          {{ vm.topWin.value }}
+          <span class="stat-sub" *ngIf="vm.topWin.value > 0">— {{ vm.topWin.name }}</span>
         </div>
       </section>
 
       <section class="card stat">
         <div class="stat-label">Highest losing streak</div>
         <div class="stat-value">
-          {{ vm.topLose.value }} <span class="stat-sub" *ngIf="vm.topLose.value > 0">— {{ vm.topLose.name }}</span>
+          {{ vm.topLose.value }}
+          <span class="stat-sub" *ngIf="vm.topLose.value > 0">— {{ vm.topLose.name }}</span>
         </div>
       </section>
 
+      <!-- Best players -->
       <section class="card stat" *ngIf="vm.bestPlayers?.length">
         <div class="stat-label">Best player(s) (win ratio)</div>
         <div class="stat-value">
           <ng-container *ngFor="let p of vm.bestPlayers; let i = index">
-            {{ p.ratio | percent:'1.0-0' }} — {{ p.name }}<span *ngIf="i < vm.bestPlayers.length-1">,&nbsp;</span>
+            {{ p.ratio | percent:'1.0-0' }} — {{ p.name
+            }}<span *ngIf="i < vm.bestPlayers.length - 1">,&nbsp;</span>
           </ng-container>
         </div>
+        <p class="stat-disclaimer">* Only players with more than 3 games</p>
       </section>
 
+      <!-- Worst players -->
       <section class="card stat" *ngIf="vm.worstPlayers?.length">
         <div class="stat-label">Worst player(s) (win ratio)</div>
         <div class="stat-value">
           <ng-container *ngFor="let p of vm.worstPlayers; let i = index">
-            {{ p.ratio | percent:'1.0-0' }} — {{ p.name }}<span *ngIf="i < vm.worstPlayers.length-1">,&nbsp;</span>
+            {{ p.ratio | percent:'1.0-0' }} — {{ p.name
+            }}<span *ngIf="i < vm.worstPlayers.length - 1">,&nbsp;</span>
           </ng-container>
         </div>
+        <p class="stat-disclaimer">* Only players with more than 3 games</p>
       </section>
 
       <section class="card stat">
@@ -57,18 +65,13 @@
       </section>
     </div>
 
-    <!-- Best/Worst disclaimer -->
-    <p style="color:var(--text-tertiary); margin:-0.8rem 0 1.2rem; font-size:.9rem;">
-      * Best/Worst players only counted if they have more than 3 games
-    </p>
-
-    <!-- Disclaimer -->
-    <p style="color:var(--text-tertiary); margin:1.5rem 0 .5rem;">
+    <!-- Global disclaimer -->
+    <p style="color: var(--text-tertiary); margin: 1.5rem 0 0.5rem">
       * Players with ≤ 5 games
     </p>
 
     <!-- Per-player table -->
-    <section class="card table-card" style="margin-top:.5rem;">
+    <section class="card table-card" style="margin-top: 0.5rem">
       <h3 class="neon-underline">Per-player statistics (win ratio)</h3>
       <div class="table-wrapper">
         <table class="table-stats">
@@ -85,16 +88,24 @@
           </thead>
           <tbody>
             <tr *ngFor="let r of vm.rows">
-              <td class="left player-name">{{ r.name }}<span *ngIf="r.games <= 5">*</span></td>
-              <td>{{ r.ratio | percent:'1.0-0' }}</td>
-              <td class="hide-sm">{{ r.games >= 5 ? (r.last5  | percent:'1.0-0') : '-' }}</td>
-              <td class="hide-sm">{{ r.games >= 5 ? (r.last10 | percent:'1.0-0') : '-' }}</td>
-              <td class="hide-sm">{{ r.games >= 5 ? (r.last20 | percent:'1.0-0') : '-' }}</td>
+              <td class="left player-name">
+                {{ r.name }}<span *ngIf="r.games < 5">*</span>
+              </td>
+              <td>{{ r.ratio | percent: '1.0-0' }}</td>
+              <td class="hide-sm">
+                {{ r.games >= 5 ? (r.last5 | percent: '1.0-0') : '-' }}
+              </td>
+              <td class="hide-sm">
+                {{ r.games >= 5 ? (r.last10 | percent: '1.0-0') : '-' }}
+              </td>
+              <td class="hide-sm">
+                {{ r.games >= 5 ? (r.last20 | percent: '1.0-0') : '-' }}
+              </td>
               <td>
                 <ng-container *ngIf="r.games >= 5; else noTrend">
-                  <span class="trend up" *ngIf="r.trend==='up'">▲</span>
-                  <span class="trend down" *ngIf="r.trend==='down'">▼</span>
-                  <span class="trend flat" *ngIf="r.trend==='flat'">▷</span>
+                  <span class="trend up" *ngIf="r.trend === 'up'">▲</span>
+                  <span class="trend down" *ngIf="r.trend === 'down'">▼</span>
+                  <span class="trend flat" *ngIf="r.trend === 'flat'">▷</span>
                 </ng-container>
                 <ng-template #noTrend>-</ng-template>
               </td>
@@ -102,8 +113,8 @@
                 <div class="info-icon-wrapper">
                   <lucide-icon name="info" class="info-icon"></lucide-icon>
                   <div class="info-tooltip">
-                    Wins: {{ r.wins }}<br>
-                    Losses: {{ r.losses }}<br>
+                    Wins: {{ r.wins }}<br />
+                    Losses: {{ r.losses }}<br />
                     Games: {{ r.games }}
                   </div>
                 </div>
@@ -115,16 +126,21 @@
     </section>
 
     <!-- Charts -->
-    <div class="grid" style="margin-top:1rem">
+    <div class="grid" style="margin-top: 1rem">
       <section class="card chart">
         <h3 class="neon-underline">Win ratio by player</h3>
         <div class="bar-list">
           <div class="bar-item" *ngFor="let r of vm.charts.byRatio">
-            <div class="bar-label">{{ r.name }}<span *ngIf="r.games <= 5">*</span></div>
-            <div class="bar-track">
-              <div class="bar-fill" [style.width.%]="r.ratio * 100"></div>
+            <div class="bar-label">
+              {{ r.name }}<span *ngIf="r.games <= 5">*</span>
             </div>
-            <div class="bar-value">{{ r.ratio | percent:'1.0-0' }}</div>
+            <div class="bar-track">
+              <div
+                class="bar-fill"
+                [style.width.%]="r.ratio * 100"
+              ></div>
+            </div>
+            <div class="bar-value">{{ r.ratio | percent: '1.0-0' }}</div>
           </div>
         </div>
       </section>
@@ -133,9 +149,14 @@
         <h3 class="neon-underline">Absolute wins</h3>
         <div class="bar-list">
           <div class="bar-item" *ngFor="let r of vm.charts.byWins">
-            <div class="bar-label">{{ r.name }}<span *ngIf="r.games <= 5">*</span></div>
+            <div class="bar-label">
+              {{ r.name }}<span *ngIf="r.games <= 5">*</span>
+            </div>
             <div class="bar-track">
-              <div class="bar-fill" [style.width.%]="(r.wins / vm.charts.maxWins) * 100"></div>
+              <div
+                class="bar-fill"
+                [style.width.%]="(r.wins / vm.charts.maxWins) * 100"
+              ></div>
             </div>
             <div class="bar-value">{{ r.wins }}</div>
           </div>
@@ -146,9 +167,16 @@
         <h3 class="neon-underline">Participation count</h3>
         <div class="bar-list">
           <div class="bar-item" *ngFor="let r of vm.charts.byParticipation">
-            <div class="bar-label">{{ r.name }}<span *ngIf="r.games <= 5">*</span></div>
+            <div class="bar-label">
+              {{ r.name }}<span *ngIf="r.games <= 5">*</span>
+            </div>
             <div class="bar-track">
-              <div class="bar-fill" [style.width.%]="(r.participation / vm.charts.maxPart) * 100"></div>
+              <div
+                class="bar-fill"
+                [style.width.%]="
+                  (r.participation / vm.charts.maxPart) * 100
+                "
+              ></div>
             </div>
             <div class="bar-value">{{ r.participation }}</div>
           </div>
@@ -158,6 +186,8 @@
   </ng-container>
 
   <ng-template #empty>
-    <p style="color:var(--text-tertiary)">No games yet. Add your first game to see stats.</p>
+    <p style="color: var(--text-tertiary)">
+      No games yet. Add your first game to see stats.
+    </p>
   </ng-template>
 </section>

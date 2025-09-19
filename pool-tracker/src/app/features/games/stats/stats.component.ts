@@ -142,12 +142,13 @@ export class StatsComponent {
       });
     }
 
-    const eligible = rows.filter(r => r.games >= 3);
+    // only consider players with >3 games for best/worst
+    const eligible = rows.filter(r => r.games > 3);
     const bestPlayers = eligible.length
-      ? rows.filter(r => r.ratio === Math.max(...eligible.map(e => e.ratio)))
+      ? eligible.filter(r => r.ratio === Math.max(...eligible.map(e => e.ratio)))
       : [];
     const worstPlayers = eligible.length
-      ? rows.filter(r => r.ratio === Math.min(...eligible.map(e => e.ratio)))
+      ? eligible.filter(r => r.ratio === Math.min(...eligible.map(e => e.ratio)))
       : [];
 
     let topWin = { name: '—', value: 0 };

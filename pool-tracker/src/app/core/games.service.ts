@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, firstValueFrom, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Game } from './models/game';
+import { environment } from '../../environments/environment';
 
 export type EloEntry = {
   name: string;
@@ -15,15 +16,9 @@ export class GamesService {
   private _games$ = new BehaviorSubject<Game[]>([]);
   games$ = this._games$.asObservable();
 
-  // prod
-  private GET_URL = '/api/get_games.php';
-  private SAVE_URL = '/api/save_game.php';
-  private DELETE_URL = '/api/delete_game.php';
-
-  // dev
-  // private GET_URL = '/data/get_games.php';
-  // private SAVE_URL = '/data/save_game.php';
-  // private DELETE_URL = '/data/delete_game.php';
+  private GET_URL = `${environment.apiBase}/get_games.php`;
+  private SAVE_URL = `${environment.apiBase}/save_game.php`;
+  private DELETE_URL = `${environment.apiBase}/delete_game.php`;
 
   constructor(private http: HttpClient) {}
 

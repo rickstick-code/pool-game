@@ -1,79 +1,92 @@
-/* ===== Podium layout ===== */
+:host {
+  display: block;
+  padding: 1rem;
+}
+
+/* Page title */
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-soft);
+}
+
+/* ===== Podium ===== */
 .podium {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  gap: 2rem;
-  margin: 2rem 0;
+  gap: 1rem;
+  margin: 1rem 0 1.5rem;
+  flex-wrap: wrap; /* allow wrapping on narrow screens */
 }
 
 .podium-place {
+  /* fixed base width so they always render */
+  flex: 0 0 120px;
+  text-align: center;
+
+  background: #111;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.8rem 0.6rem;
+  box-shadow: 0 0 8px rgba(0,0,0,.4);
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  background: #202620;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1rem;
-  min-width: 100px;
-  transition: transform .2s ease, box-shadow .2s ease;
-  position: relative;
+  justify-content: center;
+}
+
+.podium-place .medal {
+  font-size: 1.5rem;
+  margin-bottom: .25rem;
 }
 
 .podium-place .place-num {
-  font-size: 1.1rem;
   font-weight: 700;
+  font-size: .95rem;
   color: var(--text-tertiary);
-  margin-bottom: .3rem;
+  margin-bottom: .15rem;
 }
 
 .podium-place .player {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-secondary);
-  margin-top: .3rem;
+  margin-bottom: .15rem;
 }
 
 .podium-place .elo {
-  font-size: 1.2rem;
   font-weight: 800;
-  color: var(--text-primary);
-  text-shadow: 0 0 8px var(--shadow);
+  color: var(--accent);
+  text-shadow: 0 0 8px var(--accent-soft);
 }
 
-/* Heights to create stepped podium */
-.podium-place.first {
-  min-height: 170px;
-  transform: translateY(-10px);
-  border-color: var(--accent);
-  box-shadow: 0 0 12px var(--shadow);
-}
-.podium-place.second {
-  min-height: 140px;
-}
-.podium-place.third {
-  min-height: 120px;
+/* simulate podium heights (desktop) */
+.podium-place.first  { height: 160px; border: 2px solid var(--accent); background: #141a14; box-shadow: 0 0 12px var(--accent-soft); }
+.podium-place.second { height: 140px; }
+.podium-place.third  { height: 130px; }
+
+/* Mobile stacking */
+@media (max-width: 520px) {
+  .podium {
+    gap: .6rem;
+  }
+  .podium-place {
+    flex: 1 1 100%;
+    max-width: 100%;
+    height: auto;          /* reset fixed height when stacked */
+    padding: .9rem .7rem;
+  }
+  /* Winner shown first when stacked (your HTML order is 2,1,3) */
+  .podium-place.first { order: -1; }
 }
 
-/* Hover glow */
-.podium-place:hover {
-  transform: translateY(-6px);
-  border-color: var(--accent);
-  box-shadow: 0 0 12px var(--shadow),
-              inset 0 0 6px rgba(57,245,106,0.05);
+/* ===== Table (reuse global look, just minor tweaks) ===== */
+.table-card {
+  margin-top: 1rem;
 }
 
-/* ===== Medals ===== */
-.medal {
-  font-size: 1.4rem;
-  position: absolute;
-  top: -1.2rem;
-}
-.first .medal { color: gold; }
-.second .medal { color: silver; }
-.third .medal { color: #cd7f32; } /* bronze */
-
-/* ===== Table styling ===== */
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -83,64 +96,39 @@
 .table-stats {
   width: 100%;
   border-collapse: collapse;
+  font-size: 0.95rem;
 }
 
 .table-stats th,
 .table-stats td {
-  padding: 0.75rem 1rem;
+  padding: 0.7rem 0.9rem;
   border-bottom: 1px solid var(--border);
-  text-align: right;
-  font-variant-numeric: tabular-nums;
 }
 
-.table-stats th.left,
-.table-stats td.left {
-  text-align: left;
+.table-stats thead tr {
+  background: #202620;
 }
 
 .table-stats th {
   color: var(--text-primary);
   font-weight: 700;
+  text-align: left;
 }
 
-.player-name {
+.table-stats td {
   color: var(--text-secondary);
-  font-weight: 600;
 }
 
-/* Trend + Delta */
-.trend {
-  font-weight: 800;
-}
-.trend.up { color: var(--text-primary); text-shadow: 0 0 10px var(--shadow); }
+.table-stats .left { text-align: left; }
+.player-name { font-weight: 600; color: var(--text-secondary); }
+
+/* Trend arrows (match stats page) */
+.trend { font-weight: 800; margin-right: .35rem; }
+.trend.up   { color: var(--text-primary); text-shadow: 0 0 10px var(--shadow); }
 .trend.down { color: #f56a6a; }
 .trend.flat { color: var(--text-tertiary); }
 
-.delta {
-  margin-left: .4rem;
-  font-size: .85rem;
-  font-weight: 600;
-}
+/* Delta numbers */
+.delta { font-variant-numeric: tabular-nums; }
 .delta.pos { color: var(--text-primary); }
 .delta.neg { color: #f56a6a; }
-
-/* ===== Responsive tweaks ===== */
-@media (min-width: 900px) {
-  .podium {
-    gap: 3rem;
-    margin: 2.5rem 0;
-  }
-
-  .podium-place {
-    min-width: 140px;
-    padding: 1.5rem;
-  }
-
-  .podium-place .elo {
-    font-size: 1.5rem;
-  }
-
-  .podium-place .player {
-    font-size: 1.1rem;
-  }
-}
