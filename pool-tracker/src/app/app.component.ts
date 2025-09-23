@@ -13,6 +13,7 @@ import { GamesService } from './core/games.service';
         <a routerLink="/games/elo" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Elo</a>
         <a routerLink="/games/stats" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Statistics</a>
         <a routerLink="/games/history" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">History</a>
+        <a routerLink="/games/rules" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Rules</a>
         <a routerLink="/legal" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Legal</a>
       </div>
     </div>

@@ -3,14 +3,16 @@ import { AddGameComponent } from './features/games/add-game/add-game.component';
 import { EloComponent } from './features/games/elo/elo.component';
 import { StatsComponent } from './features/games/stats/stats.component';
 import { LegalComponent } from './features/legal/legal.component';
-import { HistoryComponent } from './features/games/history/history.component'; // <-- add
+import { HistoryComponent } from './features/games/history/history.component';
+import { RulesComponent } from './features/games/rules/rules.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'games' },
   { path: 'games', component: AddGameComponent },
   { path: 'games/elo', component: EloComponent },
   { path: 'games/stats', component: StatsComponent },
-  { path: 'games/history', component: HistoryComponent }, // <-- add
+  { path: 'games/history', component: HistoryComponent },
+  { path: 'games/rules', component: RulesComponent },
   { path: 'legal', component: LegalComponent },
   { path: '**', redirectTo: '' }
 ];

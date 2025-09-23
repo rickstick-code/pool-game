@@ -1,0 +1,45 @@
+.rules-card {
+  background: linear-gradient(180deg, var(--card), var(--card-elev));
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -12px rgba(0,0,0,.5), 
+              0 0 0 1px var(--border-soft) inset;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.rules-section {
+  margin-bottom: 1.5rem;
+}
+
+.rules-section h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3rem;
+}
+
+.rules-section p,
+.rules-section li {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.rules-section ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.rules-section a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.disclaimer {
+  color: var(--text-tertiary);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+  display: block;
+}
